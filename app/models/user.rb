@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
   end
 
   def password_required?
-    not_using_openid? && (crypted_password.blank? || !password.blank?)
+    new_record? ? not_using_openid? && (crypted_password.blank? || !password.blank?) : !password.blank?
   end
 
   protected
