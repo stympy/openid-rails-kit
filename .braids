@@ -6,6 +6,13 @@ vendor/plugins/rspec:
   branch: master
   squash: true
   remote: git://github.com/dchelimsky/rspec.git
+vendor/plugins/rspec_rails: 
+  local_branch: braid/git/vendor/plugins/rspec-rails/master
+  type: git
+  revision: 
+  branch: master
+  squash: true
+  remote: git://github.com/dchelimsky/rspec-rails.git
 vendor/plugins/open_id_authentication: 
   local_branch: braid/git/vendor/plugins/open-id-authentication/master
   type: git
