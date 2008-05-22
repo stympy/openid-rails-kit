@@ -1,0 +1,8 @@
+--- 
+vendor/plugins/open_id_authentication: 
+  local_branch: braid/git/vendor/plugins/open-id-authentication/master
+  type: git
+  revision: 
+  branch: master
+  squash: true
+  remote: git://github.com/josh/open_id_authentication.git
