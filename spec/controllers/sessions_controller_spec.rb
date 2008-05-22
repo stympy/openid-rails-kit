@@ -10,6 +10,7 @@ describe SessionsController do
     @user  = mock_user
     @login_params = { :login => 'quentin', :password => 'test' }
     User.stub!(:authenticate).with(@login_params[:login], @login_params[:password]).and_return(@user)
+    controller.stub!(:using_open_id?).and_return(false)
   end
   def do_create
     post :create, @login_params
@@ -101,26 +102,26 @@ end
 
 describe SessionsController do
   describe "route generation" do
-    it "should route {:controller => 'sessions', :action => 'new'} to /sessions/new" do
-      route_for(:controller => 'sessions', :action => 'new').should == "/sessions/new"
+    it "should route {:controller => 'sessions', :action => 'new'} to /session/new" do
+      route_for(:controller => 'sessions', :action => 'new').should == "/session/new"
     end
-    it "should route {:controller => 'sessions', :action => 'create'} to /sessions" do
-      route_for(:controller => 'sessions', :action => 'create').should == "/sessions"
+    it "should route {:controller => 'sessions', :action => 'create'} to /session" do
+      route_for(:controller => 'sessions', :action => 'create').should == "/session"
     end
-    it "should route {:controller => 'sessions', :action => 'destroy'} to /sessions" do
-      route_for(:controller => 'sessions', :action => 'destroy').should == "/sessions/destroy"
+    it "should route {:controller => 'sessions', :action => 'destroy'} to /session" do
+      route_for(:controller => 'sessions', :action => 'destroy').should == "/session/destroy"
     end
   end
   
   describe "route recognition" do
-    it "should generate params {:controller => 'sessions', :action => 'new'} from GET /sessions" do
-      params_from(:get, '/sessions/new').should == {:controller => 'sessions', :action => 'new'}
+    it "should generate params {:controller => 'sessions', :action => 'new'} from GET /session" do
+      params_from(:get, '/session/new').should == {:controller => 'sessions', :action => 'new'}
     end
-    it "should generate params {:controller => 'sessions', :action => 'create'} from POST /sessions" do
-      params_from(:post, '/sessions').should == {:controller => 'sessions', :action => 'create'}
+    it "should generate params {:controller => 'sessions', :action => 'create'} from POST /session" do
+      params_from(:post, '/session').should == {:controller => 'sessions', :action => 'create'}
     end
-    it "should generate params {:controller => 'sessions', :action => 'destroy'} from DELETE /sessions" do
-      params_from(:delete, '/sessions').should == {:controller => 'sessions', :action => 'destroy'}
+    it "should generate params {:controller => 'sessions', :action => 'destroy'} from DELETE /session" do
+      params_from(:delete, '/session').should == {:controller => 'sessions', :action => 'destroy'}
     end
   end
   
@@ -128,11 +129,11 @@ describe SessionsController do
     before(:each) do
       get :new
     end
-    it "should route users_path() to /sessions" do
-      sessions_path().should == "/sessions"
+    it "should route users_path() to /session" do
+      session_path().should == "/session"
     end
-    it "should route new_user_path() to /sessions/new" do
-      new_session_path().should == "/sessions/new"
+    it "should route new_user_path() to /session/new" do
+      new_session_path().should == "/session/new"
     end
   end
   
