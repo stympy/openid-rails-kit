@@ -11,6 +11,17 @@
 <p><label for="remember_me">Remember me:</label>
 <%= check_box_tag 'remember_me', '1', @remember_me %></p>
 -->
+<p>
+  ...or use:
+</p>
 
-<p><%= submit_tag 'Log in' %></p>
+<p>
+  <label for="openid_url">OpenID:</label>
+  <%= text_field_tag "openid_url" %>
+</p>
+
+<p>
+  <%= submit_tag 'Sign in' %>
+</p>
+
 <% end -%>

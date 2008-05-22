@@ -104,7 +104,7 @@ module OpenIdAuthentication
   private
     def begin_open_id_authentication(identity_url, options = {})
       identity_url = normalize_url(identity_url)
-      return_to = options.delete(:return_to)
+      return_to = options.delete(:return_to) || open_id_complete_url
       open_id_request = open_id_consumer.begin(identity_url)
       add_simple_registration_fields(open_id_request, options)
       redirect_to(open_id_redirect_url(open_id_request, return_to))
@@ -134,7 +134,7 @@ module OpenIdAuthentication
     end
 
     def open_id_consumer
-      OpenID::Consumer.new(session, open_id_store)
+      OpenID::Consumer.new(session, store)
     end
 
     def add_simple_registration_fields(open_id_request, fields)

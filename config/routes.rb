@@ -31,6 +31,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :users
 
+  map.open_id_complete 'opensession', :controller => "sessions", :action => "create", :requirements => { :method => :get }
   map.resource :session
 
   # Install the default routes as the lowest priority.
