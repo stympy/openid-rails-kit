@@ -1,0 +1,5 @@
+<% if logged_in? %>
+Hi, you are logged in as <%= current_user.email %>.
+<% else %>
+You aren't logged in.
+<% end %>
