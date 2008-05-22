@@ -106,6 +106,7 @@
 			</div>
 		
 			<div id="left_side">
+			  <%= [:error, :notice].map {|e| content_tag(:div, flash[e], :id => "flash_#{e}") if flash[e] } %>
 				<%= yield %>
 			</div>
 		</div>

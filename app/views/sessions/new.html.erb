@@ -21,7 +21,9 @@
 </p>
 
 <p>
-  <%= submit_tag 'Sign in' %>
+  <%= submit_tag 'Sign in', :disable_with => "Signing in&hellip;" %>
 </p>
 
 <% end -%>
+
+<%= link_to("Don't have an account yet?", new_user_url) %>
