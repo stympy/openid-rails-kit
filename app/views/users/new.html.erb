@@ -17,8 +17,8 @@
 <%= f.password_field :password_confirmation %></p>
 
 <h3>...or use OpenID</h3>
-<p><label for="identity_url">OpenID</label><br/>
-<%= f.text_field :identity_url %></p>
+<p><label for="openid_url">OpenID URL</label><br/>
+<%= text_field_tag :openid_url, params[:openid_url] || params['openid.identity'] %></p>
 
 
 <p><%= submit_tag 'Sign up' %></p>
