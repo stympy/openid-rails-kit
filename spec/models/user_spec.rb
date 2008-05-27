@@ -213,6 +213,27 @@ describe User do
     users(:quentin).remember_token_expires_at.should_not be_nil
     users(:quentin).remember_token_expires_at.between?(before, after).should be_true
   end
+  
+  describe "with OpenID" do
+    before(:each) do
+      @user = User.new(:email => 'quire@example.com', :identity_url => 'http://yahoo.com')
+    end
+
+    it "should not require a login or password" do
+      @user.should be_valid
+    end
+    
+    it "should indicate using OpenID" do
+      @user.not_using_openid?.should be_false
+    end
+    
+    it "should require a password if the user attempts to change the password" do
+      @user = users(:quentin)
+      @user.identity_url = 'http://yahoo.com'
+      @user.password = 'foo'
+      @user.password_required?.should be_true
+    end
+  end
 
 protected
   def create_user(options = {})

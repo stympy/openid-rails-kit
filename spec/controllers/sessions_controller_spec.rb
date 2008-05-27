@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-# Be sure to include AuthenticatedTestHelper in spec/spec_helper.rb instead
-# Then, you can remove it from this and the units test.
-include AuthenticatedTestHelper
+include OpenIdAuthentication
 
 describe SessionsController do
   fixtures        :users
@@ -10,7 +8,6 @@ describe SessionsController do
     @user  = mock_user
     @login_params = { :login => 'quentin', :password => 'test' }
     User.stub!(:authenticate).with(@login_params[:login], @login_params[:password]).and_return(@user)
-    controller.stub!(:using_open_id?).and_return(false)
   end
   def do_create
     post :create, @login_params
@@ -96,6 +93,39 @@ describe SessionsController do
     end
     it 'logs me out'                   do controller.should_receive(:logout_killing_session!); do_destroy end
     it 'redirects me to the home page' do do_destroy; response.should be_redirect     end
+  end
+  
+  describe "with OpenID" do
+    describe "successful return" do
+      before(:each) do
+        controller.should_receive(:authenticate_with_open_id).
+          and_yield(Result[:successful], 'http://openid.yahoo.com/me/blah')
+      end
+      
+      it "should load the user based on identity url and log in" do
+        User.should_receive(:find_by_identity_url).with('http://openid.yahoo.com/me/blah').and_return(users(:quentin))
+        controller.should_receive(:successful_login)
+        get :create, 'openid.identity' => 'http://openid.yahoo.com/me/blah', :open_id_complete => 1
+      end
+      
+      it "should fail the login without a user found" do
+        User.should_receive(:find_by_identity_url).with('http://openid.yahoo.com/me/blah').and_return(nil)
+        controller.should_not_receive(:successful_login)
+        get :create, 'openid.identity' => 'http://openid.yahoo.com/me/blah', :open_id_complete => 1
+        flash[:error].should == "Sorry, no user by that identity URL exists (http://openid.yahoo.com/me/blah)"
+        response.should render_template('new')
+      end
+    end
+    
+    describe "failed return" do
+      it "should fail the login" do
+        controller.should_receive(:authenticate_with_open_id).
+          and_yield(Result[:failed], 'http://openid.yahoo.com/me/blah')
+        controller.should_not_receive(:successful_login)
+        get :create, 'openid.identity' => 'http://openid.yahoo.com/me/blah', :open_id_complete => 1
+        response.should render_template('new')
+      end
+    end
   end
   
 end
