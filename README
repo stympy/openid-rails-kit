@@ -21,8 +21,13 @@ file for more info).
 
 This code provides a complete, running Rails application. There
 are a few things you need to do to get started, though. First, you
-should create your SQLite database and the database tables with
-the following rake command on the command line:
+need to have the ruby-openid gem installed (version 2.0.4 is the
+latest at the time of this writing):
+
+gem install ruby-openid
+
+Next, you should create your SQLite database and the database
+tables with the following rake command on the command line:
 
 rake db:schema:load
 
