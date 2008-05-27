@@ -34,8 +34,10 @@ ActionController::Routing::Routes.draw do |map|
   map.open_id_complete 'opensession', :controller => "sessions", :action => "create", :requirements => { :method => :get }
   map.open_id_create 'opencreate', :controller => "users", :action => "create", :requirements => { :method => :get }
   map.resource :session
-  map.login '/login', :controller => 'sessions', :action => 'new'
-
+  map.signup '/signup', :controller => 'users', :action => 'new'
+  map.login  '/login',  :controller => 'sessions', :action => 'new'
+  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
+  
   # Install the default routes as the lowest priority.
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
