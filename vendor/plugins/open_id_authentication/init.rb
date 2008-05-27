@@ -12,6 +12,6 @@ else
   end
 end
 
-config.to_prepare do
+config.after_initialize do
   ActionController::Base.send :include, OpenIdAuthentication
 end
