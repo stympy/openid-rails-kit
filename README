@@ -67,3 +67,13 @@ app/
     user.rb - I have made a few changes here (and related changes
     deeper in the plugin code) to allow a User record to validate
     without a login and password if OpenID is being used.
+    
+== Shameless self-promotion
+
+If you find this code useful, you might also be interested in
+other, similar starter applications that can be found at
+http://railskits.com/. For example, if you are building a
+software-as-a-service Rails application, the SaaS Rails Kit
+provides you tried and tested code for recurring billing,
+subdomain-based accounts, etc. It will save you a ton of time in
+building your next Rails application.
