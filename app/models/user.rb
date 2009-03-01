@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
   protected
     
     def normalize_identity_url
-      self.identity_url = OpenIdAuthentication.normalize_url(identity_url) unless identity_url.blank?
+      self.identity_url = OpenIdAuthentication.normalize_identifier(identity_url) unless identity_url.blank?
     rescue URI::InvalidURIError
       errors.add_to_base("Invalid OpenID URL")
     end

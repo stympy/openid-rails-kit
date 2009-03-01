@@ -68,7 +68,6 @@ Use the above code in your User model and validate OpenID URLs before saving the
 config/routes.rb
 
   map.root :controller => 'articles'
-  map.open_id_complete 'session', :controller => "sessions", :action => "create", :requirements => { :method => :get }
   map.resource :session
 
 
@@ -90,8 +89,8 @@ app/views/sessions/new.erb
     </p>
 
     <p>
-      <label for="openid_url">OpenID:</label>
-      <%= text_field_tag "openid_url" %>
+      <label for="openid_identifier">OpenID:</label>
+      <%= text_field_tag "openid_identifier" %>
     </p>
 
     <p>
@@ -214,6 +213,19 @@ You can support it in your app by changing #open_id_authentication
       def model_to_registration_mapping
         { :login => 'nickname', :email => 'email', :display_name => 'fullname' }
       end
+
+Attribute Exchange OpenID Extension
+===================================
+
+Some OpenID providers also support the OpenID AX (attribute exchange) protocol for exchanging identity information between endpoints.  See more: http://openid.net/specs/openid-attribute-exchange-1_0.html
+
+Accessing AX data is very similar to the Simple Registration process, described above -- just add the URI identifier for the AX field to your :optional or :required parameters.  For example:
+
+        authenticate_with_open_id(identity_url, 
+            :required => [ :email, 'http://schema.openid.net/birthDate' ]) do |result, identity_url, registration|
+      
+This would provide the sreg data for :email, and the AX data for 'http://schema.openid.net/birthDate'
+
 
 
 Copyright (c) 2007 David Heinemeier Hansson, released under the MIT license
